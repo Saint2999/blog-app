@@ -1,0 +1,63 @@
+networks:
+  blog-app-network:
+    driver: bridge
+
+services: 
+  php:
+    container_name: blog-app-php
+    build:
+      context: ./docker/php
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    tty: true
+    working_dir: /var/www
+    volumes: 
+      - ./:/var/www
+    networks: 
+      - blog-app-network
+
+  mysql:
+    container_name: blog-app-mysql
+    build:
+      context: ./docker/mysql
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    expose:
+      - "5432"
+    ports:
+      - "5432:5432"
+    volumes: 
+      - db_data:/var/lib/mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=qwerty
+    networks:
+      - blog-app-network
+
+  phpmyadmin:
+    container_name: poker-rice-board-phpmyadmin
+    depends_on:
+      - mysql
+    image: phpmyadmin/phpmyadmin:5.2.1
+    restart: unless-stopped
+    ports:
+      - "8888:80"
+    environment:
+      - PMA_HOST=mysql
+      - MYSQL_ROOT_PASSWORD=qwerty
+    networks:
+      - blog-app-network
+
+  nginx:
+    container_name: blog-app-nginx
+    build:
+      context: ./docker/nginx
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    tty: true
+    ports: 
+      - 8100:80
+    networks: 
+      - blog-app-network
+
+volumes:
+  db_data:
