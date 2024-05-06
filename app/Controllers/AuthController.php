@@ -74,7 +74,14 @@ class AuthController
         if (!$token || !hash_equals(SessionManager::get('csrf-token'), $token)) {
             SessionManager::set('csrf-token', bin2hex(random_bytes(32)));
 
-            return $this->authResponseWithErrors($type, ['Invalid form submission']);
+            return new Response(
+                'auth', 
+                [
+                    'type' => $type->value,
+                    'csrfToken' => SessionManager::get('csrf-token'),
+                    'errors' => ['Invalid form submission']
+                ]
+            );
         }
 
         $validator = new Validator([
@@ -83,7 +90,14 @@ class AuthController
         ]);
 
         if (!$validator->validate($request->getParams())) {
-            return $this->authResponseWithErrors($type, $validator->getErrors());
+            return new Response(
+                'auth', 
+                [
+                    'type' => $type->value,
+                    'csrfToken' => SessionManager::get('csrf-token'),
+                    'errors' => $validator->getErrors()
+                ]
+            );
         }
 
         $userDTO = DTOHydrator::hydrate(
@@ -104,25 +118,16 @@ class AuthController
                     break;
             }
         } catch (\Exception $e) {
-            return $this->authResponseWithErrors($type, [$e->getMessage()]);
+            return new Response(
+                'auth', 
+                [
+                    'type' => $type->value,
+                    'csrfToken' => SessionManager::get('csrf-token'),
+                    'errors' => [$e->getMessage()]
+                ]
+            );
         }
 
         Redirector::redirect('/articles');
-    }
-
-    private function authResponseWithErrors(AuthenticationType $type, array $errors)
-    {
-        $response = new Response();
-
-        $response->view(
-            'auth',
-            [
-                'type' => $type->value,
-                'csrfToken' => SessionManager::get('csrf-token'),
-                'errors' => $errors
-            ]
-        );
-
-        return $response;
     }
 }

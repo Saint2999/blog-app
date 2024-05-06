@@ -8,9 +8,15 @@ class Response
     private string $view;
     private array $variables = [];
 
-    public function __construct() 
+    public function __construct(
+        string $view = '', 
+        array $variables = [], 
+        string $viewDir = BASE_PATH . '/resources/views'
+    ) 
     {
-        $this->viewDir = BASE_PATH . '/resources/views';
+        $this->view = $view;
+        $this->variables = $variables;
+        $this->viewDir = $viewDir;
     }
 
     public function view(string $name, array $variables = []): void
