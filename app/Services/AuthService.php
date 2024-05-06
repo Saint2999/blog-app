@@ -15,7 +15,7 @@ class AuthService
         $this->repository = new UsersRepository();
     }
 
-    public function login(UserDTO $userDTO)
+    public function login(UserDTO $userDTO): void
     {
         if (SessionManager::has('authenticated')) {
             return;
@@ -34,12 +34,12 @@ class AuthService
         $this->authenticateWithSession($user->id, $user->name);
     }
 
-    public function register(UserDTO $userDTO)
+    public function register(UserDTO $userDTO): void
     {
         if (SessionManager::has('authenticated')) {
             return;
         }
-        
+
         $user = $this->repository->getUserByName($userDTO->name);
 
         if ($user) {
@@ -58,7 +58,7 @@ class AuthService
         $this->authenticateWithSession($user->id, $user->name);
     }
 
-    public function logout()
+    public function logout(): void
     {
         SessionManager::remove('authenticated');
 
@@ -69,7 +69,8 @@ class AuthService
         session_regenerate_id();
     }
 
-    private function authenticateWithSession(string $id, string $name) {
+    private function authenticateWithSession(string $id, string $name): void
+    {
         session_regenerate_id();
 
         SessionManager::set('authenticated', true);
