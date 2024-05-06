@@ -1,0 +1,50 @@
+body {
+    background-color: #f1f1f1;
+    text-align: right;
+    margin:0;
+    padding:0;
+    font-family: "Helvetica Neue", Helvetica, Verdana, Arial, Sans, sans-serif;
+    font-size: 18px;
+    font-weight: 300;
+  }
+  
+  nav {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+  
+    text-align: center;
+    padding-top: 64px;
+    gap: 24px;
+  }
+  
+  a {
+    color: black;
+  }
+  
+  .active {
+    color: purple;
+  }
+  
+  .container {
+    display: flex;
+    flex-direction: column;
+    height: 512px;
+    justify-content: center;
+    align-items: center;
+    gap: 24px;
+  }
+  
+  #container > div {
+    display: flex;
+    flex-direction: column;
+    height: 512px;
+    justify-content: center;
+    align-items: center;
+    gap: 24px;
+  }
+  
+  textarea {
+    font-family: "Helvetica Neue", Helvetica, Verdana, Arial, Sans, sans-serif;
+  }
