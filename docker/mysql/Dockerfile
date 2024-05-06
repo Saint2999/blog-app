@@ -5,3 +5,5 @@ RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 ENV LANG en_US.UTF-8  
 ENV LANGUAGE en_US:en  
 ENV LC_ALL en_US.UTF-8
+
+COPY ./scripts/create-mysql-database.sh /docker-entrypoint-initdb.d/

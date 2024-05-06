@@ -34,7 +34,7 @@ services:
       - blog-app-network
 
   phpmyadmin:
-    container_name: poker-rice-board-phpmyadmin
+    container_name: blog-app-phpmyadmin
     depends_on:
       - mysql
     image: phpmyadmin/phpmyadmin:5.2.1
