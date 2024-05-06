@@ -20,7 +20,31 @@ class Model
         return $statement->fetchAll();
     }
 
-    public static final function find(string $id): Model
+    public static final function allWithLimit(string $offset, string $count): array
+    {
+        $pdo = Database::connect();
+
+        $statement = $pdo->prepare("SELECT * FROM " . static::table . " LIMIT :offset, :count");
+
+        $statement->execute(['offset' => $offset, 'count' => $count]);
+
+        $statement->setFetchMode(PDO::FETCH_CLASS, get_called_class());
+
+        return $statement->fetchAll();
+    }
+
+    public static final function count(): int
+    {
+        $pdo = Database::connect();
+
+        $statement = $pdo->prepare("SELECT * FROM " . static::table . "");
+
+        $statement->execute();
+
+        return $statement->rowCount();
+    }
+
+    public static final function find(string $id): ?Model
     {
         $pdo = Database::connect();
 
@@ -46,7 +70,7 @@ class Model
         return $statement->fetchAll();
     }
 
-    public static final function create(array $attributes): Model
+    public static final function create(array $attributes): ?Model
     {
         $pdo = Database::connect();
 
@@ -60,7 +84,7 @@ class Model
         return self::find($pdo->lastInsertId());
     }
 
-    public static final function update(string $id, array $attributes): int
+    public static final function update(array $attributes, string $id): ?Model
     {
         $pdo = Database::connect();
 
@@ -76,10 +100,14 @@ class Model
 
         $statement->execute($attributes);
 
-        return $statement->rowCount();
+        if (!$statement->rowCount()) {
+            return null;
+        }
+
+        return self::find($id);
     }
 
-    public static final function delete(string $id): int
+    public static final function delete(string $id): bool
     {
         $pdo = Database::connect();
 
@@ -87,6 +115,10 @@ class Model
 
         $statement->execute(['id' => $id]);
 
-        return $statement->rowCount();
+        if (!$statement->rowCount()) {
+            return false;
+        }
+
+        return true;
     }
 }
