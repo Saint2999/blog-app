@@ -24,7 +24,7 @@ class ArticlesController
 
     public function index(Request $request): Response
     {
-        $page = $request->getParam('page');
+        $page = $request->getParam('page') ?? '1';
 
         $articles = $this->service->getArticlesForPage($page);
 
@@ -36,6 +36,7 @@ class ArticlesController
             'articles/index', 
             [
                 'articles' => $articles,
+                'page' => $page,
                 'articleCount' => $articleCount,
                 'articleCountOnPage' => $articleCountOnPage
             ]

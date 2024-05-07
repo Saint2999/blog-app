@@ -20,13 +20,16 @@ class Model
         return $statement->fetchAll();
     }
 
-    public static final function allWithLimit(string $offset, string $count): array
+    public static final function allWithLimit(int $offset, int $count): array
     {
         $pdo = Database::connect();
 
         $statement = $pdo->prepare("SELECT * FROM " . static::table . " LIMIT :offset, :count");
 
-        $statement->execute(['offset' => $offset, 'count' => $count]);
+        $statement->bindParam(':offset', $offset, PDO::PARAM_INT);
+        $statement->bindParam(':count', $count, PDO::PARAM_INT);
+
+        $statement->execute();
 
         $statement->setFetchMode(PDO::FETCH_CLASS, get_called_class());
 
@@ -61,7 +64,7 @@ class Model
     {
         $pdo = Database::connect();
 
-        $statement = $pdo->prepare("SELECT * FROM " . static::table . " WHERE $column = :value ;");
+        $statement = $pdo->prepare("SELECT * FROM " . static::table . " WHERE $column = :value");
 
         $statement->execute(['value' => $value]);
 

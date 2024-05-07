@@ -6,7 +6,7 @@ use app\Models\Article;
 
 class ArticlesRepository 
 {
-    public function getArticlesWithLimit(string $offset, string $count): array
+    public function getArticlesWithLimit(int $offset, int $count): array
     {
         return Article::allWithLimit($offset, $count);
     }

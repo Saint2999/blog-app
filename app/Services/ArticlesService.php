@@ -18,7 +18,7 @@ class ArticlesService
 
     public function getArticlesForPage(string $page): array
     {
-        $offset = $this->articleCountOnPage * (int)$page + 1; 
+        $offset = $this->articleCountOnPage * ((int)$page - 1); 
 
         return $this->repository->getArticlesWithLimit($offset, $this->articleCountOnPage);
     }
