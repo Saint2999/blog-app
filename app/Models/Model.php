@@ -91,6 +91,24 @@ class Model
         return $statement->fetchAll();
     }
 
+    public static final function whereAndWhere(
+        string $firstColumn, 
+        string $firstValue,
+        string $secondColumn, 
+        string $secondValue
+    ): array
+    {
+        $pdo = Database::connect();
+
+        $statement = $pdo->prepare("SELECT * FROM " . static::table . " WHERE $firstColumn = :firstValue AND $secondColumn = :secondValue");
+
+        $statement->execute(['firstValue' => $firstValue, 'secondValue' => $secondValue]);
+
+        $statement->setFetchMode(PDO::FETCH_CLASS, get_called_class());
+
+        return $statement->fetchAll();
+    }
+
     public static final function create(array $attributes): ?Model
     {
         $pdo = Database::connect();
