@@ -45,6 +45,10 @@ class ArticlesController
 
     public function create(Request $request): Response
     {
+        if (!SessionManager::has('authenticated')) {
+            Redirector::redirect('/auth/login');
+        }
+
         SessionManager::set('csrf-token', bin2hex(random_bytes(32)));
 
         return new Response(
@@ -55,6 +59,10 @@ class ArticlesController
 
     public function store(Request $request): ?Response
     {
+        if (!SessionManager::has('authenticated')) {
+            Redirector::redirect('/auth/login');
+        }
+
         $token = $request->getParam('csrf-token');
 
         if (!$token || !hash_equals(SessionManager::get('csrf-token'), $token)) {
@@ -89,33 +97,51 @@ class ArticlesController
             new ArticleDTO()
         );
 
-        $this->service->storeArticle($articleDTO);
+        $article = $this->service->storeArticle($articleDTO);
 
-        Redirector::redirect('/articles');
+        Redirector::redirect("/articles/show?id=$article->id");
     }
 
     public function show(Request $request): Response
     {
+        SessionManager::set('csrf-token', bin2hex(random_bytes(32)));
+        
         $article = $this->service->getArticleById($request->getParam('id'));
     
         return new Response(
             'articles/show', 
-            ['article' => $article]
+            [
+                'article' => $article,
+                'csrfToken' => SessionManager::get('csrf-token')
+            ]
         );
     }
 
     public function edit(Request $request): Response
     {
+        if (!SessionManager::has('authenticated')) {
+            Redirector::redirect('/auth/login');
+        }
+
         SessionManager::set('csrf-token', bin2hex(random_bytes(32)));
+
+        $article = $this->service->getArticleById($request->getParam('id'));
 
         return new Response(
             'articles/update', 
-            ['csrfToken' => SessionManager::get('csrf-token')]
+            [
+                'article' => $article,
+                'csrfToken' => SessionManager::get('csrf-token')
+            ]
         );
     }
 
     public function update(Request $request): ?Response
     {
+        if (!SessionManager::has('authenticated')) {
+            Redirector::redirect('/auth/login');
+        }
+
         $token = $request->getParam('csrf-token');
 
         if (!$token || !hash_equals(SessionManager::get('csrf-token'), $token)) {
@@ -152,16 +178,31 @@ class ArticlesController
 
         $article = $this->service->updateArticle($articleDTO, $request->getParam('id'));
 
-        return new Response(
-            'articles/show', 
-            ['article' => $article]
-        );
+        Redirector::redirect("/articles/show?id=$article->id");
     }
 
     public function destroy(Request $request): ?Response
     {
+        if (!SessionManager::has('authenticated')) {
+            Redirector::redirect('/auth/login');
+        }
+
+        $token = $request->getParam('csrf-token');
+
+        if (!$token || !hash_equals(SessionManager::get('csrf-token'), $token)) {
+            SessionManager::set('csrf-token', bin2hex(random_bytes(32)));
+
+            return new Response(
+                'articles/update', 
+                [
+                    'csrfToken' => SessionManager::get('csrf-token'),
+                    'errors' => ['Invalid form submission']
+                ]
+            );
+        }
+        
         $this->service->destroyArticleById($request->getParam('id'));
-    
+        
         Redirector::redirect('/articles');
     }
 }
