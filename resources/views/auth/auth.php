@@ -1,7 +1,7 @@
 <?php require_once BASE_PATH . '/resources/views/templates/header.php'; ?>
 
 <main>
-    <form class ="container" action="/auth/<?= $type; ?>" method="POST">
+    <form id="form_container" class ="container" action="/auth/<?= $type; ?>" method="POST">
         <label for="name">Name:</label>
         <input type="text" name="name" placeholder="Name" id="name" required>
 

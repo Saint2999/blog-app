@@ -1,5 +1,5 @@
 <nav>      
-    <a href="/articles/create">Create article</a>      
+    <a href="/articles/store">Create article</a>      
     
     <a href="/articles">Articles</a>
    
