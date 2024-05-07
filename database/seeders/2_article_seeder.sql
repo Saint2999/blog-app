@@ -1,0 +1,12 @@
+INSERT INTO articles (id, name, description, user_id) VALUES (1, 'article_1', :lorem, 1);
+INSERT INTO articles (id, name, description, user_id) VALUES (2, 'article_2', :lorem, 1);
+INSERT INTO articles (id, name, description, user_id) VALUES (3, 'article_3', :lorem, 1);
+INSERT INTO articles (id, name, description, user_id) VALUES (4, 'article_4', :lorem, 1);
+INSERT INTO articles (id, name, description, user_id) VALUES (5, 'article_5', :lorem, 2);
+INSERT INTO articles (id, name, description, user_id) VALUES (6, 'article_6', :lorem, 2);
+INSERT INTO articles (id, name, description, user_id) VALUES (7, 'article_7', :lorem, 2);
+INSERT INTO articles (id, name, description, user_id) VALUES (8, 'article_8', :lorem, 3);
+INSERT INTO articles (id, name, description, user_id) VALUES (9, 'article_9', :lorem, 3);
+INSERT INTO articles (id, name, description, user_id) VALUES (10, 'article_10', :lorem, 3);
+INSERT INTO articles (id, name, description, user_id) VALUES (11, 'article_11', :lorem, 3);
+INSERT INTO articles (id, name, description, user_id) VALUES (12, 'article_12', :lorem, 3);

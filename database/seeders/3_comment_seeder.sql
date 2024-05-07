@@ -1,0 +1,12 @@
+INSERT INTO comments (id, description, article_id, user_id) VALUES (1, :lorem, 1, 3);
+INSERT INTO comments (id, description, article_id, user_id) VALUES (2, :lorem, 1, 3);
+INSERT INTO comments (id, description, article_id, user_id) VALUES (3, :lorem, 1, 3);
+INSERT INTO comments (id, description, article_id, user_id) VALUES (4, :lorem, 1, 3);
+INSERT INTO comments (id, description, article_id, user_id) VALUES (5, :lorem, 2 ,4);
+INSERT INTO comments (id, description, article_id, user_id) VALUES (6, :lorem, 2, 4);
+INSERT INTO comments (id, description, article_id, user_id) VALUES (7, :lorem, 2, 4);
+INSERT INTO comments (id, description, article_id, user_id) VALUES (8, :lorem, 2, 4);
+INSERT INTO comments (id, description, article_id, user_id) VALUES (9, :lorem, 3, 5);
+INSERT INTO comments (id, description, article_id, user_id) VALUES (10, :lorem, 3, 5);
+INSERT INTO comments (id, description, article_id, user_id) VALUES (11, :lorem, 3, 5);
+INSERT INTO comments (id, description, article_id, user_id) VALUES (12, :lorem, 3, 5);

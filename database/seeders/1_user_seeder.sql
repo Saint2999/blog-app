@@ -1,0 +1,12 @@
+INSERT INTO users (id, name, password) VALUES (1, 'guy_1', 'password_1');
+INSERT INTO users (id, name, password) VALUES (2, 'guy_2', 'password_2');
+INSERT INTO users (id, name, password) VALUES (3, 'guy_3', 'password_3');
+INSERT INTO users (id, name, password) VALUES (4, 'guy_4', 'password_4');
+INSERT INTO users (id, name, password) VALUES (5, 'guy_5', 'password_5');
+INSERT INTO users (id, name, password) VALUES (6, 'guy_6', 'password_6');
+INSERT INTO users (id, name, password) VALUES (7, 'guy_7', 'password_7');
+INSERT INTO users (id, name, password) VALUES (8, 'guy_8', 'password_8');
+INSERT INTO users (id, name, password) VALUES (9, 'guy_9', 'password_9');
+INSERT INTO users (id, name, password) VALUES (10, 'guy_10', 'password_10');
+INSERT INTO users (id, name, password) VALUES (11, 'guy_11', 'password_11');
+INSERT INTO users (id, name, password) VALUES (12, 'guy_12', 'password_12');
