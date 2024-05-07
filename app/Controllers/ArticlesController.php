@@ -7,6 +7,7 @@ use app\Core\Response;
 use app\Core\SessionManager;
 use app\Services\ArticlesService;
 use app\Services\CommentsService;
+use app\Services\LikesService;
 use app\Validation\Validator;
 use app\Validation\Rules\NotNull;
 use app\Validation\Rules\StringLength;
@@ -18,11 +19,13 @@ class ArticlesController
 {
     private ArticlesService $articlesService;
     private CommentsService $commentsService;
+    private LikesService $likesService;
 
     public function __construct()
     {
         $this->articlesService = new ArticlesService();
         $this->commentsService = new CommentsService();
+        $this->likesService = new LikesService();
     }
 
     public function index(Request $request): Response
@@ -71,6 +74,8 @@ class ArticlesController
 
         $comments = $this->commentsService->getCommentsByArticleId($article->id);
 
+        $likeCount = $this->likesService->getLikeCountByArticleId($article->id);
+
         SessionManager::set('csrf-token', bin2hex(random_bytes(32)));
 
         return new Response(
@@ -78,6 +83,7 @@ class ArticlesController
             [
                 'article' => $article,
                 'comments' => $comments,
+                'likeCount' => $likeCount,
                 'csrfToken' => SessionManager::get('csrf-token')
             ]
         );
@@ -205,13 +211,26 @@ class ArticlesController
                     break;
             }
         } catch (\Exception $e) {
-            return new Response(
-                "articles/$type", 
-                [
-                    'csrfToken' => SessionManager::get('csrf-token'),
-                    'errors' => [$e->getMessage()]
-                ]
-            );
+            switch ($type) {
+                case 'update':
+                    return new Response(
+                        "articles/update", 
+                        [
+                            'article' => $articleDTO,
+                            'csrfToken' => SessionManager::get('csrf-token'),
+                            'errors' => [$e->getMessage()]
+                        ]
+                    );
+                
+                case 'store':
+                    return new Response(
+                        "articles/store", 
+                        [
+                            'csrfToken' => SessionManager::get('csrf-token'),
+                            'errors' => [$e->getMessage()]
+                        ]
+                    );                    
+            }
         }
 
         Redirector::redirect("/articles/show?id=$article->id");

@@ -162,13 +162,26 @@ class CommentsController
                     break;
             }
         } catch (\Exception $e) {
-            return new Response(
-                "comments/$type", 
-                [
-                    'csrfToken' => SessionManager::get('csrf-token'),
-                    'errors' => [$e->getMessage()]
-                ]
-            );
+            switch ($type) {
+                case 'update':
+                    return new Response(
+                        "comments/update", 
+                        [
+                            'comment' => $commentDTO,
+                            'csrfToken' => SessionManager::get('csrf-token'),
+                            'errors' => [$e->getMessage()]
+                        ]
+                    );
+                
+                case 'store':
+                    return new Response(
+                        "comments/store", 
+                        [
+                            'csrfToken' => SessionManager::get('csrf-token'),
+                            'errors' => [$e->getMessage()]
+                        ]
+                    );                    
+            }
         }
 
         Redirector::redirect("/articles/show?id=$articleId");    
