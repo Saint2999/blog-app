@@ -26,11 +26,15 @@ class Seeders
             foreach ($queries as $query) {
                 $statement = $this->pdo->prepare($query);
 
-                if (str_contains($filename, 'user')) {
-                    $statement->execute();
-                } else {
-                    $lorem = file_get_contents('http://loripsum.net/api/1/medium');
+    
+                if (str_contains($filename, 'article')) {
+                    $lorem = file_get_contents('http://loripsum.net/api/1/long');
                     $statement->execute(['lorem' => $lorem]);
+                } else if (str_contains($filename, 'comment')) {
+                    $lorem = file_get_contents('http://loripsum.net/api/1/short');
+                    $statement->execute(['lorem' => $lorem]);
+                } else {
+                    $statement->execute();
                 }
             }
         }
