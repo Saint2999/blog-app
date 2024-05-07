@@ -14,9 +14,8 @@ class Response
         string $viewDir = BASE_PATH . '/resources/views'
     ) 
     {
-        $this->view = $view;
-        $this->variables = $variables;
         $this->viewDir = $viewDir;
+        $this->view($view, $variables);
     }
 
     public function view(string $name, array $variables = []): void
