@@ -73,6 +73,24 @@ class Model
         return $statement->fetchAll();
     }
 
+    public static final function whereAndOrderBy(
+        string $whereColumn, 
+        string $value, 
+        string $orderColumn,
+        string $order
+    ): array
+    {
+        $pdo = Database::connect();
+
+        $statement = $pdo->prepare("SELECT * FROM " . static::table . " WHERE $whereColumn = :value ORDER BY $orderColumn $order");
+
+        $statement->execute(['value' => $value]);
+
+        $statement->setFetchMode(PDO::FETCH_CLASS, get_called_class());
+
+        return $statement->fetchAll();
+    }
+
     public static final function create(array $attributes): ?Model
     {
         $pdo = Database::connect();
