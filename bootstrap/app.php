@@ -2,6 +2,7 @@
 
 namespace bootstrap;
 
+use app\Core\UncaughtExceptionHandler;
 use app\Core\Migrations;
 use app\Core\Seeders;
 use app\Core\SessionManager;
@@ -12,6 +13,8 @@ class App
 {
     public function run(): void 
     {
+        (new UncaughtExceptionHandler)->init();
+
         (new Migrations)->run();
         
         (new Seeders)->run();
