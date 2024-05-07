@@ -93,15 +93,15 @@ class Model
 
         $updateAttributes = array();
         foreach (array_keys($attributes) as $name) {
-            $updateAttributes[] = "`$name` = :`$name`";
+            $updateAttributes[] = "$name = :$name";
         }
 
         $statement = $pdo->prepare(
-            "UPDATE " . static::table . " SET" . implode(", ", $updateAttributes) . 
-            "WHERE id = :id"
+            "UPDATE " . static::table . " SET " . implode(", ", $updateAttributes) . 
+            " WHERE id = :id"
         );
 
-        $statement->execute($attributes);
+        $statement->execute(array_merge($attributes, ['id' => $id]));
 
         if (!$statement->rowCount()) {
             return null;
