@@ -15,11 +15,24 @@ class Seeders
 
     public function run(): void 
     {
-        foreach (glob('../../database/seeders/*.sql') as $filename)
-        {
-            $query = file_get_contents($filename);
+        if ($this->pdo->query('SELECT * FROM users')->rowCount() > 0) {
+            return;
+        }
 
-            $this->pdo->query($query);
+        foreach (glob(BASE_PATH . '/database/seeders/*.sql') as $filename)
+        {
+            $queries = file($filename);
+
+            foreach ($queries as $query) {
+                $statement = $this->pdo->prepare($query);
+
+                if (str_contains($filename, 'user')) {
+                    $statement->execute();
+                } else {
+                    $lorem = file_get_contents('http://loripsum.net/api/1/medium');
+                    $statement->execute(['lorem' => $lorem]);
+                }
+            }
         }
     }
 }
