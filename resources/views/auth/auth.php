@@ -1,4 +1,4 @@
-<?php require_once __DIR__ . '/header.php'; ?>
+<?php require_once BASE_PATH . '/resources/views/templates/header.php'; ?>
 
 <main>
     <form class ="container" action="/auth/<?= $type; ?>" method="POST">
@@ -27,4 +27,4 @@
     </form>
 </main>
 
-<?php require_once __DIR__ . '/footer.php'; ?>
+<?php require_once BASE_PATH . '/resources/views/templates/footer.php'; ?>

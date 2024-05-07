@@ -7,9 +7,9 @@
         <title>blog-app</title>
 
         <style>
-            <?php include __DIR__  . "/../css/style.css" ?>
+            <?php include BASE_PATH . "/resources/css/style.css" ?>
         </style>
     </head>
     
     <body>
-        <?php require_once 'navigation.php'; ?>
+        <?php require_once BASE_PATH . '/resources/views/templates/navigation.php'; ?>

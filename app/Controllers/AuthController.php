@@ -54,17 +54,13 @@ class AuthController
     {
         SessionManager::set('csrf-token', bin2hex(random_bytes(32)));
 
-        $response = new Response();
-
-        $response->view(
-            'auth',
+        return new Response(
+            'auth/auth', 
             [
                 'type' => $type->value,
-                'csrfToken' => SessionManager::get('csrf-token')
+                'csrfToken' => SessionManager::get('csrf-token'),
             ]
         );
-        
-        return $response;
     }
 
     private function authenticate(Request $request, AuthenticationType $type): ?Response
@@ -75,7 +71,7 @@ class AuthController
             SessionManager::set('csrf-token', bin2hex(random_bytes(32)));
 
             return new Response(
-                'auth', 
+                'auth/auth', 
                 [
                     'type' => $type->value,
                     'csrfToken' => SessionManager::get('csrf-token'),
@@ -91,7 +87,7 @@ class AuthController
 
         if (!$validator->validate($request->getParams())) {
             return new Response(
-                'auth', 
+                'auth/auth', 
                 [
                     'type' => $type->value,
                     'csrfToken' => SessionManager::get('csrf-token'),
@@ -119,7 +115,7 @@ class AuthController
             }
         } catch (\Exception $e) {
             return new Response(
-                'auth', 
+                'auth/auth', 
                 [
                     'type' => $type->value,
                     'csrfToken' => SessionManager::get('csrf-token'),
