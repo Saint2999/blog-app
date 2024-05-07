@@ -13,6 +13,8 @@
 
             <input type="hidden" name="id" value="<?= $article->id; ?>">
 
+            <input type="hidden" name="user_id" value="<?= $article->user_id; ?>">
+
             <input type="hidden" name="csrf-token" value="<?= $csrfToken; ?>">
 
             <button type="submit">Submit</button>
