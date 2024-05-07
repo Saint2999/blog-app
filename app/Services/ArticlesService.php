@@ -48,14 +48,14 @@ class ArticlesService
         ]);
     }
 
-    public function updateArticle(ArticleDTO $articleDTO, string $id): object
+    public function updateArticle(ArticleDTO $articleDTO): object
     {
         return $this->repository->updateArticle(
             [
                 'name' => $articleDTO->name,
                 'description' => $articleDTO->description
             ],
-            $id
+            $articleDTO->id
         );
     }
 
