@@ -1,7 +1,7 @@
 <?php require_once BASE_PATH . '/resources/views/templates/header.php'; ?>
 
 <main>
-    <?php if (is_object($article)): ?>
+    <?php if (isset($article) && is_object($article)): ?>
         <form id="form_container" class="container" action="/articles/update" method="POST">
             <label for="name">Title:</label>
             <input type="text" name="name" placeholder="Title" id="name" required value="<?= $article->name; ?>">

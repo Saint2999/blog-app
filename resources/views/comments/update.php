@@ -1,7 +1,7 @@
 <?php require_once BASE_PATH . '/resources/views/templates/header.php'; ?>
 
 <main>
-    <?php if (is_object($comment)): ?>
+    <?php if (isset($comment) && is_object($comment)): ?>
         <form id="form_container" class="container" action="/comments/update" method="POST">
             <label for="description">Description:</label>
             <textarea name="description" placeholder="Description" id="description" required>
