@@ -2,6 +2,7 @@
 
 namespace app\Services;
 
+use app\Core\SessionManager;
 use app\Repositories\ArticlesRepository;
 use app\DTOs\ArticleDTO;
 
@@ -38,11 +39,12 @@ class ArticlesService
         return $this->repository->getArticleById($id);
     }
 
-    public function storeArticle(ArticleDTO $articleDTO): void
+    public function storeArticle(ArticleDTO $articleDTO): object
     {
-        $this->repository->storeArticle([
+        return $this->repository->storeArticle([
             'name' => $articleDTO->name,
-            'description' => $articleDTO->description
+            'description' => $articleDTO->description,
+            'user_id' => SessionManager::get('id')
         ]);
     }
 
