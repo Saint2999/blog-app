@@ -33,23 +33,38 @@ body {
     height: auto;
     flex-direction: column;
     justify-content: center;
-    align-items: center;
+    align-items: flex-start;
     gap: 24px;
     padding-left: 6vb;
     padding-right: 6vb;
   }
-  
-  #container > article {
-    display: flex;
+
+  .container > article {
+    align-self: left;
   }
 
-  #container > div {
+  .container > .pagination {
+    align-self: center;
+  }
+
+  .container > form {
+    align-self: center;
+  }
+
+  .container > textarea {
+    width: max(50%, 50vh);
+    height: 25vh;
+  }
+
+  #form_container {
     display: flex;
+    height: auto;
     flex-direction: column;
-    height: 512px;
     justify-content: center;
     align-items: center;
     gap: 24px;
+    padding-left: 6vb;
+    padding-right: 6vb;
   }
   
   textarea {
