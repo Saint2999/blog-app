@@ -1,10 +1,31 @@
 <?php require_once BASE_PATH . '/resources/views/templates/header.php'; ?>
 
 <main class ="container">
-    <?php if (is_object($article)): ?>
+    <?php if (isset($article) && is_object($article)): ?>
         <article>
             <h1><?= $article->name; ?></h1>
             <p><?= $article->description; ?></p>
+            <h2>Likes: <?= $likeCount; ?></h2>
+
+            <?php if (app\Core\SessionManager::has('authenticated')): ?>
+                <form style="display: inline-block;" action="/likes/store" method="POST">
+                    <input type="hidden" name="article_id" value="<?= $article->id; ?>">
+
+                    <input type="hidden" name="csrf-token" value="<?= $csrfToken; ?>">
+
+                    <button type="submit">Like</button>
+                </form>
+                
+                <form style="display: inline-block;" action="/likes/destroy" method="POST">
+                    <input type="hidden" name="article_id" value="<?= $article->id; ?>">
+
+                    <input type="hidden" name="csrf-token" value="<?= $csrfToken; ?>">
+
+                    <button type="submit">Remove like</button>
+                </form>
+            <?php endif; ?>
+            
+            <br><br>
 
             <?php if ($article->user_id == app\Core\SessionManager::get('id')): ?>
                 <button>
@@ -54,9 +75,11 @@
 		<?php endforeach; ?>
 	<?php endif; ?>
 
-    <button>
-        <a href="/comments/store?article_id=<?= $article->id; ?>">Comment</a>
-    </button>
+    <?php if (app\Core\SessionManager::has('authenticated')): ?>
+        <button>
+            <a href="/comments/store?article_id=<?= $article->id; ?>">Comment</a>
+        </button>
+    <?php endif; ?>
 </main>
 
 <?php require_once BASE_PATH . '/resources/views/templates/footer.php'; ?>

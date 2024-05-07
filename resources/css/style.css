@@ -37,6 +37,7 @@ body {
     gap: 24px;
     padding-left: 6vb;
     padding-right: 6vb;
+    padding-bottom: 64px;
   }
 
   .container > article {
@@ -69,6 +70,21 @@ body {
   
   textarea {
     font-family: "Helvetica Neue", Helvetica, Verdana, Arial, Sans, sans-serif;
+  }
+
+  button {
+    box-sizing: border-box;
+    background-color: #e2e6e6;
+    padding: 8px;
+    text-decoration: none;
+    font-size: 12px;
+    font-weight: bold;
+    color: #616872;
+    border-radius: 4px;
+  }
+
+  button:hover {
+    background-color: #d4dada;
   }
 
   .pagination {
