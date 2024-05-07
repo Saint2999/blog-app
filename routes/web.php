@@ -26,3 +26,14 @@ Router::get('/articles/update', 'app\Controllers\ArticlesController@edit');
 Router::post('/articles/update', 'app\Controllers\ArticlesController@update');
 
 Router::post('/articles/destroy', 'app\Controllers\ArticlesController@destroy');
+
+
+Router::get('/comments/store', 'app\Controllers\CommentsController@create');
+
+Router::post('/comments/store', 'app\Controllers\CommentsController@store');
+
+Router::get('/comments/update', 'app\Controllers\CommentsController@edit');
+
+Router::post('/comments/update', 'app\Controllers\CommentsController@update');
+
+Router::post('/comments/destroy', 'app\Controllers\CommentsController@destroy');
