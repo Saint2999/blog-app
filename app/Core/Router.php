@@ -6,9 +6,6 @@ class Router
 {
     private const HTTP_GET = 'GET';
     private const HTTP_POST = 'POST';
-    private const HTTP_PUT = 'PUT';
-    private const HTTP_PATCH = 'PATCH';
-    private const HTTP_DELETE = 'DELETE';
 
     private static array $routes = [];
 
@@ -34,21 +31,6 @@ class Router
     public static function post(string $uri, string $action): void
     {
         self::registerRoute($uri, $action, self::HTTP_POST);
-    }
-
-    public static function put(string $uri, string $action): void
-    {
-        self::registerRoute($uri, $action, self::HTTP_PUT);
-    }
-
-    public static function patch(string $uri, string $action): void
-    {
-        self::registerRoute($uri, $action, self::HTTP_PATCH);
-    }
-
-    public static function delete(string $uri, string $action): void
-    {
-        self::registerRoute($uri, $action, self::HTTP_DELETE);
     }
 
     private static function registerRoute(string $uri, string $action, string $method)
