@@ -28,10 +28,10 @@ class Seeders
 
     
                 if (str_contains($filename, 'article')) {
-                    $lorem = file_get_contents('http://loripsum.net/api/1/long');
+                    $lorem = strip_tags(file_get_contents('http://loripsum.net/api/1/long'));
                     $statement->execute(['lorem' => $lorem]);
                 } else if (str_contains($filename, 'comment')) {
-                    $lorem = file_get_contents('http://loripsum.net/api/1/short');
+                    $lorem = strip_tags(file_get_contents('http://loripsum.net/api/1/short'));
                     $statement->execute(['lorem' => $lorem]);
                 } else {
                     $statement->execute();
