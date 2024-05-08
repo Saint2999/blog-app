@@ -54,7 +54,7 @@ body {
 
   .container > textarea {
     width: max(50%, 50vh);
-    height: 25vh;
+    height: 20vh;
   }
 
   #form_container {
