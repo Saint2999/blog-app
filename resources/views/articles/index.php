@@ -6,11 +6,11 @@
 			<article>
 				<h2>
 					<a href="/articles/show?id=<?= $article->id; ?>">
-						<?= $article->name; ?>
+						<?= htmlspecialchars($article->name); ?>
 					</a>
 				</h2>
 
-				<p><?= substr($article->description, 0, 255); ?>...</p>
+				<p><?= htmlspecialchars(substr($article->description, 0, 255)); ?>...</p>
 			</article>
 		<?php endforeach; ?>
 	<?php endif; ?>

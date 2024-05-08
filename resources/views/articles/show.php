@@ -3,8 +3,8 @@
 <main class ="container">
     <?php if (isset($article) && is_object($article)): ?>
         <article>
-            <h1><?= $article->name; ?></h1>
-            <p><?= $article->description; ?></p>
+            <h1><?= htmlspecialchars($article->name); ?></h1>
+            <p><?= htmlspecialchars($article->description); ?></p>
             <h2>Likes: <?= $likeCount; ?></h2>
 
             <?php if (app\Core\SessionManager::has('authenticated')): ?>
@@ -48,7 +48,7 @@
     <?php if (!empty($comments)): ?>
 		<?php foreach ($comments as $comment): ?>
 			<div class="comment">
-				<h3><?= $comment->description; ?></h3>
+				<h3><?= htmlspecialchars($comment->description); ?></h3>
 
 				<p><?= $comment->created_at; ?></p>
 

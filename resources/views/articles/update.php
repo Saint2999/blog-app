@@ -4,11 +4,11 @@
     <?php if (isset($article) && is_object($article)): ?>
         <form id="form_container" class="container" action="/articles/update" method="POST">
             <label for="name">Title:</label>
-            <input type="text" name="name" placeholder="Title" id="name" required value="<?= $article->name; ?>">
+            <input type="text" name="name" placeholder="Title" id="name" required value="<?= htmlspecialchars($article->name); ?>">
 
             <label for="description">Description:</label>
             <textarea name="description" placeholder="Description" id="description" required>
-                <?= $article->description; ?>
+                <?= htmlspecialchars($article->description); ?>
             </textarea>
 
             <input type="hidden" name="id" value="<?= $article->id; ?>">
