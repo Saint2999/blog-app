@@ -14,13 +14,13 @@ class App
 {
     public function run(): void 
     {
+        SessionManager::init();
+
         (new UncaughtExceptionHandler)->init();
 
         (new Migrations)->run();
         
         (new Seeders)->run();
-
-        SessionManager::init();
 
         RateLimiter::init();
 
