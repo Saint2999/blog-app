@@ -6,6 +6,7 @@ use app\Core\UncaughtExceptionHandler;
 use app\Core\Migrations;
 use app\Core\Seeders;
 use app\Core\SessionManager;
+use app\Core\RateLimiter;
 use app\Core\Router;
 use app\Core\Request;
 
@@ -21,11 +22,15 @@ class App
 
         SessionManager::init();
 
+        RateLimiter::init();
+
         $router = Router::getInstance();
 
         $request = new Request();
 
         $response = $router->route($request);
+
+        RateLimiter::addToTimeline($request);
 
         $response->render();
     }

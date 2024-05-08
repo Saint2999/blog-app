@@ -5,6 +5,7 @@ namespace app\Controllers;
 use app\Core\Request;
 use app\Core\Response;
 use app\Core\SessionManager;
+use app\Core\RateLimiter;
 use app\Services\CommentsService;
 use app\Validation\Validator;
 use app\Validation\Rules\NotNull;
@@ -114,6 +115,16 @@ class CommentsController
 
         if ($type == 'update' && $request->getParam('user_id') != SessionManager::get('id')) {
             Redirector::redirect("/articles/show?id=$articleId");
+        }
+
+        if (RateLimiter::checkIfRequestWasRunIn(60, $request)) {
+            return new Response(
+                "comments/$type", 
+                [
+                    'csrfToken' => SessionManager::get('csrf-token'),
+                    'errors' => ['Too Many Requests']
+                ]
+            );
         }
 
         $token = $request->getParam('csrf-token');

@@ -21,7 +21,7 @@ final class SessionManager
         session_start();
     }
 
-    public static function get(string $key): ?string
+    public static function get(string $key): string|null|array
     {
         if (array_key_exists($key, $_SESSION)) {
             return $_SESSION[$key];
