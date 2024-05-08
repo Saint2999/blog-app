@@ -6,6 +6,7 @@ use app\Core\Request;
 use app\Core\Response;
 use app\Core\SessionManager;
 use app\Core\RateLimiter;
+use app\Core\ExceptionHandler;
 use app\Services\ArticlesService;
 use app\Services\CommentsService;
 use app\Services\LikesService;
@@ -221,7 +222,13 @@ class ArticlesController
                     
                     break;
             }
-        } catch (\Exception $e) {
+        } catch (\Throwable $e) {
+            if ($e instanceof \PDOException) {
+                $errorMessage = ExceptionHandler::getPDOError($e->getCode());
+            } else {
+                $errorMessage = $e->getMessage();
+            }
+        
             switch ($type) {
                 case 'update':
                     return new Response(
@@ -229,7 +236,7 @@ class ArticlesController
                         [
                             'article' => $articleDTO,
                             'csrfToken' => SessionManager::get('csrf-token'),
-                            'errors' => [$e->getMessage()]
+                            'errors' => [$errorMessage]
                         ]
                     );
                 
@@ -238,7 +245,7 @@ class ArticlesController
                         "articles/store", 
                         [
                             'csrfToken' => SessionManager::get('csrf-token'),
-                            'errors' => [$e->getMessage()]
+                            'errors' => [$errorMessage]
                         ]
                     );                    
             }

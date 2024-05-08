@@ -5,7 +5,7 @@
         <form id="form_container" class="container" action="/comments/update" method="POST">
             <label for="description">Description:</label>
             <textarea name="description" placeholder="Description" id="description" required>
-                <?= $comment->description; ?>
+                <?= htmlspecialchars($comment->description); ?>
             </textarea>
 
             <input type="hidden" name="id" value="<?= $comment->id; ?>">

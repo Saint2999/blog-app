@@ -2,7 +2,7 @@
 
 namespace bootstrap;
 
-use app\Core\UncaughtExceptionHandler;
+use app\Core\ExceptionHandler;
 use app\Core\Migrations;
 use app\Core\Seeders;
 use app\Core\SessionManager;
@@ -16,7 +16,7 @@ class App
     {
         SessionManager::init();
 
-        (new UncaughtExceptionHandler)->init();
+        (new ExceptionHandler)->init();
 
         (new Migrations)->run();
         
