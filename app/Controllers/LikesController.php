@@ -40,7 +40,10 @@ class LikesController
             new LikeDTO()
         );
 
-        $this->service->storeLike($likeDTO);
+        try {
+            $this->service->storeLike($likeDTO);
+        } catch (\Exception $e) {
+        }
 
         Redirector::redirect("/articles/show?id=$articleId"); 
     }
@@ -61,7 +64,10 @@ class LikesController
             Redirector::redirect("/articles/show?id=$articleId");
         }
         
-        $this->service->destroyLikeByArticleId($articleId);
+        try {
+            $this->service->destroyLikeByArticleId($articleId);
+        } catch (\Exception $e) {
+        }
         
         Redirector::redirect("/articles/show?id=$articleId");
     }
