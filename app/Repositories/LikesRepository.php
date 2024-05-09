@@ -34,4 +34,17 @@ class LikesRepository
 
         return Like::delete($like->id);
     }
+
+    public function checkIfLikeExists(string $articleId, string $userId): bool 
+    {
+        $likes = Like::whereAndWhere('article_id', $articleId, 'user_id', $userId);
+
+        $like = reset($likes);
+
+        if (!$like) {
+            return false;
+        }
+        
+        return true;
+    }
 }

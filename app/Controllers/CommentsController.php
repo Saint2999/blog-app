@@ -174,12 +174,6 @@ class CommentsController
                     break;
             }
         } catch (\Throwable $e) {
-            if ($e instanceof \PDOException) {
-                $errorMessage = ExceptionHandler::getPDOError($e->getCode());
-            } else {
-                $errorMessage = $e->getMessage();
-            }
-
             switch ($type) {
                 case 'update':
                     return new Response(
@@ -187,7 +181,7 @@ class CommentsController
                         [
                             'comment' => $commentDTO,
                             'csrfToken' => SessionManager::get('csrf-token'),
-                            'errors' => [$errorMessage]
+                            'errors' => [$e->getMessage()]
                         ]
                     );
                 
@@ -196,7 +190,7 @@ class CommentsController
                         "comments/store", 
                         [
                             'csrfToken' => SessionManager::get('csrf-token'),
-                            'errors' => [$errorMessage]
+                            'errors' => [$e->getMessage()]
                         ]
                     );                    
             }

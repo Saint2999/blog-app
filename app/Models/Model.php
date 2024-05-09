@@ -57,7 +57,13 @@ class Model
         
         $statement->setFetchMode(PDO::FETCH_CLASS, get_called_class());
 
-        return $statement->fetch();
+        $model = $statement->fetch();
+
+        if (!$model) {
+            return null;
+        }
+
+        return $model;
     }
 
     public static final function where(string $column, string $value): array
@@ -154,7 +160,7 @@ class Model
 
         $statement->execute(['id' => $id]);
 
-        if (!$statement->rowCount()) {
+        if ($statement->rowCount() <= 0) {
             return false;
         }
 

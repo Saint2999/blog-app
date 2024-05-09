@@ -36,31 +36,69 @@ class ArticlesService
 
     public function getArticleById(string $id): object
     {
-        return $this->repository->getArticleById($id);
+        $article = $this->repository->getArticleById($id);
+
+        if (!$article) {
+            throw new \Exception("Article not found", 404);
+        }
+
+        return $article;
     }
 
     public function storeArticle(ArticleDTO $articleDTO): object
     {
-        return $this->repository->storeArticle([
+        $article = $this->repository->getArticleByName($articleDTO->name);
+
+        if ($article) {
+            throw new \Exception("Article already exists", 422);
+        }
+
+        $article = $this->repository->storeArticle([
             'name' => $articleDTO->name,
             'description' => $articleDTO->description,
             'user_id' => SessionManager::get('id')
         ]);
+
+        if (!$article) {
+            throw new \Exception("Article could not be created", 500);
+        }
+
+        return $article;
     }
 
     public function updateArticle(ArticleDTO $articleDTO): object
     {
-        return $this->repository->updateArticle(
+        $article = $this->repository->getArticleById($articleDTO->id);
+
+        if (!$article) {
+            throw new \Exception("Article not found", 404);
+        }
+
+        $article = $this->repository->updateArticle(
             [
                 'name' => $articleDTO->name,
                 'description' => $articleDTO->description
             ],
             $articleDTO->id
         );
+
+        if (!$article) {
+            throw new \Exception("Article could not be updated", 500);
+        }
+
+        return $article;
     }
 
     public function destroyArticleById(string $id): void
     {
-        $this->repository->destroyArticleById($id);
+        $article = $this->repository->getArticleById($id);
+
+        if (!$article) {
+            throw new \Exception("Article not found", 404);
+        }
+
+        if (!$this->repository->destroyArticleById($id)) {
+            throw new \Exception("Article could not be destroyed", 500);
+        }
     }
 }

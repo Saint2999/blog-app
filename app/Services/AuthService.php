@@ -17,10 +17,6 @@ class AuthService
 
     public function login(UserDTO $userDTO): void
     {
-        if (SessionManager::has('authenticated')) {
-            return;
-        }
-
         $user = $this->repository->getUserByName($userDTO->name);
 
         if (!$user) {
@@ -36,10 +32,6 @@ class AuthService
 
     public function register(UserDTO $userDTO): void
     {
-        if (SessionManager::has('authenticated')) {
-            return;
-        }
-
         $user = $this->repository->getUserByName($userDTO->name);
 
         if ($user) {
