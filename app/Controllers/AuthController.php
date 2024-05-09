@@ -123,7 +123,7 @@ class AuthController
                     
                     break;
             }
-        } catch (\Exception $e) {
+        } catch (\Throwable $e) {
             return new Response(
                 'auth/auth', 
                 [

@@ -21,6 +21,19 @@ class ArticlesRepository
         return Article::find($id);
     }
 
+    public function getArticleByName(string $name): ?Article
+    {
+        $articles = Article::where('name', $name);
+
+        $article = reset($articles);
+
+        if (!$article) {
+            return null;
+        }
+
+        return $article; 
+    }
+
     public function storeArticle(array $details): ?Article
     {
         return Article::create($details);

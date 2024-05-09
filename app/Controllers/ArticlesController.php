@@ -223,12 +223,6 @@ class ArticlesController
                     break;
             }
         } catch (\Throwable $e) {
-            if ($e instanceof \PDOException) {
-                $errorMessage = ExceptionHandler::getPDOError($e->getCode());
-            } else {
-                $errorMessage = $e->getMessage();
-            }
-        
             switch ($type) {
                 case 'update':
                     return new Response(
@@ -236,7 +230,7 @@ class ArticlesController
                         [
                             'article' => $articleDTO,
                             'csrfToken' => SessionManager::get('csrf-token'),
-                            'errors' => [$errorMessage]
+                            'errors' => [$e->getMessage()]
                         ]
                     );
                 
@@ -245,7 +239,7 @@ class ArticlesController
                         "articles/store", 
                         [
                             'csrfToken' => SessionManager::get('csrf-token'),
-                            'errors' => [$errorMessage]
+                            'errors' => [$e->getMessage()]
                         ]
                     );                    
             }
