@@ -53,8 +53,8 @@ body {
   }
 
   .container > textarea {
-    width: max(50%, 50vh);
-    height: 20vh;
+    width: max(60%, 60vw);
+    height: 18vh;
   }
 
   #form_container {
