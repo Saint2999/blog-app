@@ -45,13 +45,19 @@ class AuthController
 
     public function logout(Request $request)
     {
-        $this->service->logout();
+        if (SessionManager::has('authenticated')) {
+            $this->service->logout();
+        }
 
         Redirector::redirect('/articles');
     }
 
     private function showAuth(AuthenticationType $type): Response
     {
+        if (SessionManager::has('authenticated')) {
+            Redirector::redirect('/articles');
+        }
+
         SessionManager::set('csrf-token', bin2hex(random_bytes(32)));
 
         return new Response(
@@ -65,6 +71,10 @@ class AuthController
 
     private function authenticate(Request $request, AuthenticationType $type): ?Response
     {
+        if (SessionManager::has('authenticated')) {
+            Redirector::redirect('/articles');
+        }
+
         $token = $request->getParam('csrf-token');
 
         if (!$token || !hash_equals(SessionManager::get('csrf-token'), $token)) {
