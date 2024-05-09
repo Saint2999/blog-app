@@ -67,7 +67,7 @@ services:
   #   restart: unless-stopped
   #   tty: true
   #   volumes: 
-  #     - ./public/:/usr/local/apache2/htdocs/
+  #     - ./:/var/www
   #   ports: 
   #     - 8100:80
   #   networks: 
