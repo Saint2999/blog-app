@@ -48,7 +48,7 @@
     <?php if (!empty($comments)): ?>
 		<?php foreach ($comments as $comment): ?>
 			<div class="comment">
-				<h3><?= htmlspecialchars($comment->description); ?></h3>
+                <h3><?= htmlspecialchars($comment->description); ?></h3>
 
 				<p><?= $comment->created_at; ?></p>
 

@@ -6,10 +6,9 @@ use app\Core\Request;
 use app\Core\Response;
 use app\Core\SessionManager;
 use app\Core\RateLimiter;
-use app\Core\ExceptionHandler;
-use app\Services\ArticlesService;
-use app\Services\CommentsService;
-use app\Services\LikesService;
+use app\Services\Interfaces\ArticlesServiceInterface;
+use app\Services\Interfaces\CommentsServiceInterface;
+use app\Services\Interfaces\LikesServiceInterface;
 use app\Validation\Validator;
 use app\Validation\Rules\NotNull;
 use app\Validation\Rules\StringLength;
@@ -19,15 +18,19 @@ use app\Helpers\Redirector;
 
 class ArticlesController
 {
-    private ArticlesService $articlesService;
-    private CommentsService $commentsService;
-    private LikesService $likesService;
+    private ArticlesServiceInterface $articlesService;
+    private CommentsServiceInterface $commentsService;
+    private LikesServiceInterface $likesService;
 
-    public function __construct()
+    public function __construct(
+        ArticlesServiceInterface $articlesService,
+        CommentsServiceInterface $commentsService,
+        LikesServiceInterface $likesService
+    )
     {
-        $this->articlesService = new ArticlesService();
-        $this->commentsService = new CommentsService();
-        $this->likesService = new LikesService();
+        $this->articlesService = $articlesService;
+        $this->commentsService = $commentsService;
+        $this->likesService = $likesService;
     }
 
     public function index(Request $request): Response

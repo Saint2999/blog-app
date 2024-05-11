@@ -11,13 +11,18 @@ class Router
 
     private static $router;
 
-    private function __construct() {}
+    private DependencyInjectionContainer $container;
 
-    public static function getInstance(): self {
+    private function __construct(DependencyInjectionContainer $container) 
+    {
+        $this->container = $container;
+    }
+
+    public static function getInstance(DependencyInjectionContainer $container): self {
 
         if(!isset(self::$router)) {
 
-            self::$router = new self();
+            self::$router = new self($container);
         }
 
         return self::$router;
@@ -58,13 +63,13 @@ class Router
         $function = $callback['function'];
 
         if(!class_exists($controller)) {
-            throw new \Exception('Server error: Class not found', 500);
+            throw new \Exception('Class not found', 500);
         }
 
-        $controllerInstance = new $controller();
+        $controllerInstance = $this->container->get($controller);
 
         if(!method_exists($controllerInstance, $function)) {
-            throw new \Exception('Server error: Class method not found', 500);
+            throw new \Exception('Class method not found', 500);
         }
 
         return $controllerInstance->$function($request);

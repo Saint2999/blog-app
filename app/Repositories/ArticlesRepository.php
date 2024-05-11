@@ -2,9 +2,10 @@
 
 namespace app\Repositories;
 
+use app\Repositories\Interfaces\ArticlesRepositoryInterface;
 use app\Models\Article;
 
-class ArticlesRepository 
+class ArticlesRepository implements ArticlesRepositoryInterface
 {
     public function getArticlesWithLimit(int $offset, int $count): array
     {

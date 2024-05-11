@@ -3,16 +3,17 @@
 namespace app\Services;
 
 use app\Core\SessionManager;
-use app\Repositories\UsersRepository;
+use app\Services\Interfaces\AuthServiceInterface;
+use app\Repositories\Interfaces\UsersRepositoryInterface;
 use app\DTOs\UserDTO;
 
-class AuthService
+class AuthService implements AuthServiceInterface
 {
-    private UsersRepository $repository;
+    private UsersRepositoryInterface $repository;
 
-    public function __construct() 
+    public function __construct(UsersRepositoryInterface $repository) 
     {
-        $this->repository = new UsersRepository();
+        $this->repository = $repository;
     }
 
     public function login(UserDTO $userDTO): void

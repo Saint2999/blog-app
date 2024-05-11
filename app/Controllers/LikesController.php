@@ -5,18 +5,18 @@ namespace app\Controllers;
 use app\Core\Request;
 use app\Core\Response;
 use app\Core\SessionManager;
-use app\Services\LikesService;
+use app\Services\Interfaces\LikesServiceInterface;
 use app\DTOs\LikeDTO;
 use app\Helpers\DTOHydrator;
 use app\Helpers\Redirector;
 
 class LikesController
 {
-    private LikesService $service;
+    private LikesServiceInterface $service;
 
-    public function __construct()
+    public function __construct(LikesServiceInterface $service)
     {
-        $this->service = new LikesService();
+        $this->service = $service;
     }
 
     public function store(Request $request): ?Response
@@ -60,8 +60,13 @@ class LikesController
 
             Redirector::redirect("/articles/show?id=$articleId");
         }
+
+        $likeDTO = DTOHydrator::hydrate(
+            $request->getParams(),
+            new LikeDTO()
+        );
         
-        $this->service->destroyLikeByArticleId($articleId);
+        $this->service->destroyLike($likeDTO);
         
         Redirector::redirect("/articles/show?id=$articleId");
     }
