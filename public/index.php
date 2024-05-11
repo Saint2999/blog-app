@@ -13,6 +13,6 @@ use bootstrap\app;
 
 $app = new App();
 
-require_once '../routes/web.php';
+require_once BASE_PATH . '/routes/web.php';
 
 $app->run();
