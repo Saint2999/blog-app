@@ -2,9 +2,10 @@
 
 namespace app\Repositories;
 
+use app\Repositories\Interfaces\CommentsRepositoryInterface;
 use app\Models\Comment;
 
-class CommentsRepository 
+class CommentsRepository implements CommentsRepositoryInterface
 {
     public function getCommentsByArticleId(string $id): array
     {

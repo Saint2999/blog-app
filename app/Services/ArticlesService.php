@@ -3,18 +3,19 @@
 namespace app\Services;
 
 use app\Core\SessionManager;
-use app\Repositories\ArticlesRepository;
+use app\Services\Interfaces\ArticlesServiceInterface;
+use app\Repositories\Interfaces\ArticlesRepositoryInterface;
 use app\DTOs\ArticleDTO;
 
-class ArticlesService
+class ArticlesService implements ArticlesServiceInterface
 {
-    private ArticlesRepository $repository;
+    private ArticlesRepositoryInterface $repository;
 
     private int $articleCountOnPage = 10;
 
-    public function __construct() 
+    public function __construct(ArticlesRepositoryInterface $repository) 
     {
-        $this->repository = new ArticlesRepository();
+        $this->repository = $repository;
     }
 
     public function getArticlesForPage(string $page): array
@@ -56,7 +57,7 @@ class ArticlesService
         $article = $this->repository->storeArticle([
             'name' => $articleDTO->name,
             'description' => $articleDTO->description,
-            'user_id' => SessionManager::get('id')
+            'user_id' => SessionManager::get('id') ?? $articleDTO->user_id 
         ]);
 
         if (!$article) {

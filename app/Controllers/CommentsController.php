@@ -6,8 +6,7 @@ use app\Core\Request;
 use app\Core\Response;
 use app\Core\SessionManager;
 use app\Core\RateLimiter;
-use app\Core\ExceptionHandler;
-use app\Services\CommentsService;
+use app\Services\Interfaces\CommentsServiceInterface;
 use app\Validation\Validator;
 use app\Validation\Rules\NotNull;
 use app\DTOs\CommentDTO;
@@ -16,11 +15,11 @@ use app\Helpers\Redirector;
 
 class CommentsController
 {
-    private CommentsService $service;
+    private CommentsServiceInterface $service;
 
-    public function __construct()
+    public function __construct(CommentsServiceInterface $service)
     {
-        $this->service = new CommentsService();
+        $this->service = $service;
     }
 
     public function create(Request $request): Response

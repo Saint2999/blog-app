@@ -2,9 +2,10 @@
 
 namespace app\Repositories;
 
+use app\Repositories\Interfaces\UsersRepositoryInterface;
 use app\Models\User;
 
-class UsersRepository 
+class UsersRepository implements UsersRepositoryInterface
 {
     public function getUserByName(string $name): ?User
     {

@@ -3,16 +3,17 @@
 namespace app\Services;
 
 use app\Core\SessionManager;
-use app\Repositories\LikesRepository;
+use app\Services\Interfaces\LikesServiceInterface;
+use app\Repositories\Interfaces\LikesRepositoryInterface;
 use app\DTOs\LikeDTO;
 
-class LikesService
+class LikesService implements LikesServiceInterface
 {
-    private LikesRepository $repository;
+    private LikesRepositoryInterface $repository;
 
-    public function __construct() 
+    public function __construct(LikesRepositoryInterface $repository) 
     {
-        $this->repository = new LikesRepository();
+        $this->repository = $repository;
     }
     
     public function getLikeCountByArticleId(string $id): int
@@ -24,7 +25,7 @@ class LikesService
     {
         $check = $this->repository->checkIfLikeExists(
             $likeDTO->article_id,
-            SessionManager::get('id')
+            SessionManager::get('id') ?? $likeDTO->user_id
         );
 
         if ($check) {
@@ -33,7 +34,7 @@ class LikesService
 
         $check = $this->repository->storeLike([
             'article_id' => $likeDTO->article_id,
-            'user_id' => SessionManager::get('id')
+            'user_id' => SessionManager::get('id') ?? $likeDTO->user_id
         ]);
 
         if (!$check) {
@@ -41,18 +42,21 @@ class LikesService
         }
     }
 
-    public function destroyLikeByArticleId(string $articleId): void
+    public function destroyLike(LikeDTO $likeDTO): void
     {
         $check = $this->repository->checkIfLikeExists(
-            $articleId,
-            SessionManager::get('id')
+            $likeDTO->article_id,
+            SessionManager::get('id') ?? $likeDTO->user_id
         );
 
         if (!$check) {
             throw new \Exception("Like does not exist", 404);
         }
 
-        $check = $this->repository->destroyLike($articleId, SessionManager::get('id'));
+        $check = $this->repository->destroyLike(
+            $likeDTO->article_id, 
+            SessionManager::get('id') ?? $likeDTO->user_id
+        );
     
         if (!$check) {
             throw new \Exception("Like could not be destroyed", 500);

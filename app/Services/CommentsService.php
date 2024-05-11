@@ -3,16 +3,17 @@
 namespace app\Services;
 
 use app\Core\SessionManager;
-use app\Repositories\CommentsRepository;
+use app\Services\Interfaces\CommentsServiceInterface;
+use app\Repositories\Interfaces\CommentsRepositoryInterface;
 use app\DTOs\CommentDTO;
 
-class CommentsService
+class CommentsService implements CommentsServiceInterface
 {
-    private CommentsRepository $repository;
+    private CommentsRepositoryInterface $repository;
 
-    public function __construct() 
+    public function __construct(CommentsRepositoryInterface $repository) 
     {
-        $this->repository = new CommentsRepository();
+        $this->repository = $repository;
     }
 
     public function getCommentsByArticleId(string $id): array
@@ -36,7 +37,7 @@ class CommentsService
         $comment = $this->repository->storeComment([
             'description' => $commentDTO->description,
             'article_id' => $commentDTO->article_id,
-            'user_id' => SessionManager::get('id')
+            'user_id' =>  SessionManager::get('id') ?? $commentDTO->user_id
         ]);
 
         if (!$comment) {

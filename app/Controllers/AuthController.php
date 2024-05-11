@@ -5,7 +5,7 @@ namespace app\Controllers;
 use app\Core\Request;
 use app\Core\Response;
 use app\Core\SessionManager;
-use app\Services\AuthService;
+use app\Services\Interfaces\AuthServiceInterface;
 use app\Enums\AuthenticationType;
 use app\Validation\Validator;
 use app\Validation\Rules\NotNull;
@@ -16,11 +16,11 @@ use app\Helpers\Redirector;
 
 class AuthController
 {
-    private AuthService $service;
+    private AuthServiceInterface $service;
 
-    public function __construct()
+    public function __construct(AuthServiceInterface $service)
     {
-        $this->service = new AuthService();
+        $this->service = $service;
     }
 
     public function showLogin(Request $request): Response

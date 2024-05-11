@@ -2,9 +2,10 @@
 
 namespace app\Repositories;
 
+use app\Repositories\Interfaces\LikesRepositoryInterface;
 use app\Models\Like;
 
-class LikesRepository 
+class LikesRepository implements LikesRepositoryInterface
 {
     public function getLikeCountByArticleId(string $id): int 
     {
